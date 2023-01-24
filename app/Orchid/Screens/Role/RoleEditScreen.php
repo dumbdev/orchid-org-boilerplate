@@ -7,6 +7,7 @@ namespace App\Orchid\Screens\Role;
 use App\Orchid\Layouts\Role\RoleEditLayout;
 use App\Orchid\Layouts\Role\RolePermissionLayout;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Orchid\Platform\Models\Role;
 use Orchid\Screen\Action;
@@ -124,7 +125,7 @@ class RoleEditScreen extends Screen
         ]);
 
         $role->fill($request->get('role'));
-
+        $role->org_id = Auth::user()->org_id;
         $role->permissions = collect($request->get('permissions'))
             ->map(fn ($value, $key) => [base64_decode($key) => $value])
             ->collapse()

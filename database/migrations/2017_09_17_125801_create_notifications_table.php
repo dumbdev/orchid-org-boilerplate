@@ -20,6 +20,7 @@ class CreateNotificationsTable extends Migration
                 $table->morphs('notifiable');
                 $table->text('data');
                 $table->timestamp('read_at')->nullable();
+                $table->foreignIdFor(\App\Models\Organization::class,"org_id");
                 $table->timestamps();
             });
         }

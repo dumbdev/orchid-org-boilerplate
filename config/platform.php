@@ -83,7 +83,7 @@ return [
     |
     */
 
-    'auth'          => true,
+    'auth'          => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -129,7 +129,7 @@ return [
 
     'template'      => [
         'header' => '',
-        'footer' => '',
+        'footer' => 'platform.footer',
     ],
 
     /*

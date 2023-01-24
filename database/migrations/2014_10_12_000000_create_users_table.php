@@ -19,7 +19,12 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->foreignIdFor(\App\Models\Organization::class,"org_id");
+            $table->boolean("is_active");
+            $table->boolean("is_approved");
+            $table->unsignedBigInteger("created_by")->nullable();
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

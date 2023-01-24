@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
-use Orchid\Platform\Models\User as Authenticatable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Orchid\Support\Facades\Dashboard;
 
-class User extends Authenticatable
+class Organization extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -13,11 +16,9 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'email',
-        'password',
-        'permissions',
-        'is_approved',
+        'slug',
         'is_active',
+        'owner_id',
     ];
 
     /**
@@ -26,9 +27,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password',
-        'remember_token',
-        'permissions',
+
     ];
 
     /**
@@ -37,8 +36,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'permissions'          => 'array',
-        'email_verified_at'    => 'datetime',
+
     ];
 
     /**
@@ -47,10 +45,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $allowedFilters = [
-        'id',
-        'name',
-        'email',
-        'permissions',
+
     ];
 
     /**
@@ -59,10 +54,25 @@ class User extends Authenticatable
      * @var array
      */
     protected $allowedSorts = [
-        'id',
-        'name',
-        'email',
-        'updated_at',
-        'created_at',
+
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        self::creating(function($model) {
+            if ($model->slug === null) {
+                $model->slug = Str::slug($model->name, "_");
+            }
+        });
+    }
+    public static function createOrganization(string $name)
+    {
+
+        static::create([
+            'name'        => $name,
+            'is_active'   => true,
+        ]);
+    }
 }

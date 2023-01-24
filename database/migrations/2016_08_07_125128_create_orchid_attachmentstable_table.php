@@ -26,6 +26,7 @@ class CreateOrchidAttachmentstableTable extends Migration
             $table->string('disk')->default('public');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('group')->nullable();
+            $table->foreignIdFor(\App\Models\Organization::class,"org_id");
             $table->timestamps();
         });
 
